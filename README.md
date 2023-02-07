@@ -31,7 +31,7 @@ Using `PROST` you can do:
 
 ## Installation
 ### 1. Prepare `Python` environment
-To install PROST, we recommend using the [Anaconda Python Distribution](https://anaconda.org/) and creating an isolated environment, so that the PROST and dependencies don't conflict or interfere with other packages or applications. To create the environment, run the following script in command line:
+To install `PROST`, we recommend using the [Anaconda Python Distribution](https://anaconda.org/) and creating an isolated environment, so that the PROST and dependencies don't conflict or interfere with other packages or applications. To create the environment, run the following script in command line:
 
     conda create -n PROST python=3.7
 
@@ -40,13 +40,13 @@ After create the environment, you can activate the `PROST` environment by:
 
     conda activate PROST
 
-### 2. Install PROST
+### 2. Install `PROST`
 
 Install the dependency package using `pip` by:
    
     pip install -r requirements.txt
 
-If you want to use PROST in a windows environment, you may have trouble installing rpy2, then please see [rpy2](https://pypi.org/project/rpy2/), you may need to download the rpy2 `.whl` installation file to install it manually.
+If you want to use `PROST` in a windows environment, you may have trouble installing `rpy2`, then please see [rpy2](https://pypi.org/project/rpy2/), you may need to download the `.whl` installation file to install it manually.
 
 Install the PROST package using:
                                           
@@ -55,13 +55,13 @@ Install the PROST package using:
     python setup.py install
 
 ### 3. Prepare `R` environment
-This algorithm uses the `mclust` package in the R language environment, and requires rpy2 in the python environment. We recommend using the [Anaconda Python Distribution](https://anaconda.org/) and creating an isolated environment.
+This algorithm uses the `mclust` package in the `R` language environment, and requires `rpy2` in the python environment. We recommend using the [Anaconda Python Distribution](https://anaconda.org/) and creating an isolated environment.
 
     conda create -n R-PROST r-base=4.2
     conda activate R-PROST
     conda install r-mclust==5.4.10
 
-and then you must add the new R language path as the `R_HOME` and the rpy2 package path as the `R_USER` by `os` in python before you using `PROST`. For more details, please refer to the `DLPFC_test.py` under `./test`. 
+and then you must add the new `R` language path as the `R_HOME` and the `rpy2` package path as the `R_USER` by `os` in python before you using `PROST`. For more details, please refer to the [`DLPFC_test.py`](./test/DLPFC_test.py) under `./test`. 
 
     os.environ['R_HOME'] = '{your conda path}/envs/R-PROST/lib/R'
     os.environ['R_USER'] = '{your conda path}/envs/PROST1/lib/python3.7/site-packages/rpy2'
@@ -69,4 +69,4 @@ and then you must add the new R language path as the `R_HOME` and the rpy2 packa
 ---
 
 ## Improvements
-We welcome any comments about PROST, and if you find bugs or have any ideas, feel free to leave a comment [FAQ](https://github.com/Tang-Lab-super/PROST/labels/FAQ).
+We welcome any comments about `PROST`, and if you find bugs or have any ideas, feel free to leave a comment [FAQ](https://github.com/Tang-Lab-super/PROST/labels/FAQ).
