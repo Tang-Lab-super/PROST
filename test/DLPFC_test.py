@@ -11,8 +11,8 @@ import PROST
 
 
 # the location of R (used for the mclust clustering)
-os.environ['R_HOME'] = '/data3/shigw/miniconda3/envs/R-PROST/lib/R'
-os.environ['R_USER'] = '/data3/shigw/miniconda3/envs/PROST1/lib/python3.7/site-packages/rpy2'
+os.environ['R_HOME'] = '{your conda path}/envs/R-PROST/lib/R'
+os.environ['R_USER'] = '{your}/envs/PROST1/lib/python3.7/site-packages/rpy2'
 
 
 
