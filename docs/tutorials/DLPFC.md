@@ -22,11 +22,9 @@ In this vignette, we analyzed tissue section from the human dorsolateral prefron
 ### 2.Set up the working environment and import data 
 
     # the location of R (used for the mclust clustering)
-    ENVpath = "your path of PROST_ENV"  
+    ENVpath = "your path of PROST_ENV"              # refer to 'How to use PROST' section
     os.environ['R_HOME'] = f'{ENVpath}/lib/R'
     os.environ['R_USER'] = f'{ENVpath}/lib/python3.7/site-packages/rpy2'
-
-
 
     # Set seed
     SEED = 818
@@ -34,17 +32,8 @@ In this vignette, we analyzed tissue section from the human dorsolateral prefron
 
     #%% Read in data
     section_num = 151672
-
-    # Set the number of clusters
-    n_clusters = 5
-
-    # We recommend using the following policy to set the number
-    # if section_num in [151669,151670,151671,151672]:
-    #     n_clusters = 5
-    # else:
-    #     n_clusters = 7
     
-    # Set directory
+    # Set directory (If you want to use additional data, please change the file path)
     input_dir = os.path.join('datasets/DLPFC', str(section_num))
     spatial_dir = os.path.join('datasets/DLPFC', str(section_num),'spatial')
     output_dir = os.path.join('results/DLPFC_result', str(section_num))
@@ -158,6 +147,9 @@ To assess the credibility of SVGs detected by these methods, we respectively use
 
 --- 
 ## Clustering 
+    # Set the number of clusters
+    n_clusters = 5
+    
 ### 1.Read PI result and Expression data preprocessing
     adata = sc.read(output_dir+"/PI_result.h5")
 
