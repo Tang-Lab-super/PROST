@@ -3,12 +3,12 @@
 `PROST` is a flexible framework to quantify gene spatial expression patterns and detect spatial tissue domains using spatially resolved transcriptomics with various resolutions. `PROST` consists of two independent workflows: **PROST Index (PI)** and **PROST Neural Network (PNN)**. 
 
 
-![figure1](./docs/imgs/figure/figure1.png)
+![figure1](./docs/imgs/figure/figure1.jpg)
 
 Using `PROST` you can do:
 * Quantitative identification of spatial patterns of gene expression changes by the proposed **PROST Index (PI)**.
 
-* Unsupervised identification of spatial tissue domains by using a **PROST Neural Network (PNN)**. 
+* Unsupervised identification of spatial tissue domains using a **PROST Neural Network (PNN)**. 
 ---
 
 ## Installation
@@ -34,12 +34,12 @@ You can activate the `PROST_ENV` environment by:
 
     conda activate PROST_ENV
 
-### Install dependency package 
-**a.** If you want to install `PROST` in `Linux` environment, you can install the dependency package using `pip` by:
+### Install dependency packages 
+**a.** If you want to install `PROST` in `Linux` environment, you can install the dependency packages using `pip` by:
    
     pip install -r requirements.txt
 
-**b.** If you want to install `PROST` in `Windows` environment, you can install the dependency package using `pip` by:
+**b.** If you want to install `PROST` in `Windows` environment, you can install the dependency packages using `pip` by:
 
     pip install -r requirements_win.txt
     pip install rpy2-2.9.5-cp37-cp37m-win_amd64.whl
@@ -59,8 +59,10 @@ Install the `PROST` package under `PROST_ENV`environment by:
 
 Here, the environment configuration is completed! 
 
-### 4. How to use `PROST`
-Before you use `PROST`, you have to make sure that the following two steps are taken:  
+---
+
+## How to use `PROST`
+Before you use `PROST`, you have to make sure that the following two steps are taken place:  
 * `PROST_ENV` environment is activated; 
 * Add `environment variables` using the following `python code` before using `PROST`：
 
