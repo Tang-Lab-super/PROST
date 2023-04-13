@@ -71,7 +71,7 @@ Here the environment configuration is completed! We provide a test code in the `
 
 In addition, before you use `PROST`, you must activate the `PROST1` environment, and then you must add the new `R` language path as the `R_HOME` and the `rpy2` package path as the `R_USER` by `os` in python before you using `PROST`. 
 
-You can add the following code to your `Python script` to complete the setup. The `condapath` is the root directory of the conda mentioned at the beginning.
+You can add the following code to your `Python script` to complete the setup. The `condapath` is the root directory of the conda mentioned at the beginning. (such as:'C:/Users/PC/miniconda3' or '/user/miniconda3', you can also find this path from the prompt message in the last step of the installation, just intercept the conda root path.)
 
     condapath = "input your conda path"  
     os.environ['R_HOME'] = f'{condapath}/envs/PROST1/lib/R'
