@@ -77,7 +77,11 @@ Before you use `PROST`, you have to make sure that the following two steps are t
 ### Quick Start
 * After `PROST` installation, we suggest downloading the complete tutorial examples from [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7824815.svg)](https://doi.org/10.5281/zenodo.7824815)(The dataset is too large to upload to github)
 
-* Our tutorial code is pre-written to run under `./test`, you have to change the path to `./test` and also place the downloaded datasets in `./test/datasets` so that you can get the results of the run in `./test/results`. For more flexibility, you may need to modify the `input_dir, output_dir and spatial_dir ` to make sure the paths are correct.
+* Before running the tutorial, make sure your current path is in `/PROST-master/test`.
+
+    cd ./test
+
+In this path, `data` in `datasets` and `results` will store in `result`. For more flexibility, you may need to modify the `input_dir, output_dir and spatial_dir ` to make sure the paths are correct.
 
 ### [1.Application on 10x Visium human dorsolateral prefrontal cortex (DLPFC) dataset.](./docs/tutorials/DLPFC.md "In this vignette, we analyzed tissue section from the human dorsolateral prefrontal cortex (DLPFC) 10x Visium ST dataset, which was manually annotated as the cortical layers and white matter (WM)") 
 * We performed `PROST` on the 10x Visium human dorsolateral prefrontal cortex (DLPFC) dataset from [(Pardo B. et al. 2022)](https://doi.org/10.1186/s12864-022-08601-w).
