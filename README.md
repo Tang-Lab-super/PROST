@@ -79,7 +79,7 @@ Before you use `PROST`, you have to make sure that the following two steps are t
 
 * Before running the tutorial, make sure your current path is in `/PROST-master/test`.
 
-    cd ./test
+        cd ./test
 
 In this path, `data` in `datasets` and `results` will store in `result`. For more flexibility, you may need to modify the `input_dir, output_dir and spatial_dir ` to make sure the paths are correct.
 
