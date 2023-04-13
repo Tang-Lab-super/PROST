@@ -60,7 +60,7 @@ Install the `PROST` package under `PROST_ENV`environment by:
 Here, the environment configuration is completed! 
 
 ### 4. How to use `PROST`
-Before you can use `PROST`, you have to make sure that the following two steps are taken:  
+Before you use `PROST`, you have to make sure that the following two steps are taken:  
 * `PROST_ENV` environment is activated; 
 * Add `environment variables` using the following `python code` before using `PROST`：
 
