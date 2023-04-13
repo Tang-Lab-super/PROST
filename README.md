@@ -14,36 +14,37 @@ Using `PROST` you can do:
 
 ## Installation
 ### 1. Prepare `Python` environment
-To install `PROST`, we recommend using the [Anaconda](https://anaconda.org/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) Python Distributionand and creating an isolated environment, so that the `PROST` and dependencies don't conflict or interfere with other packages or applications. Please install the conda in advance, and record the conda installation directory `condapath` (such as:'C:/Users/PC/miniconda3' or '/user/miniconda3').
+To install `PROST`, we recommend using the [Anaconda](https://anaconda.org/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) Python Distribution and creating an isolated environment, so that the `PROST` and dependencies don't conflict or interfere with other packages or applications. Please install the `conda` in advance, and record the conda installation directory `condapath` (such as:'C:/Users/PC/miniconda3' or '/user/miniconda3').
 
-The entire installation process takes place in the `PROST-master` directory, so first go to that directory by:
+First, please download or clone the `PROST-master.zip` file from github `Code` and unzip it. The entire installation process takes place in the `PROST-master` directory, so first go to that directory by:
    
     cd PROST-master
 
-To create the environment, run the following script in command line:
+We recommend using a conda environment to configure PROST. To create the environment, run the following command in `bash` or `Anaconda Powershell Prompt`:
 
     conda create -n PROST1 python=3.7
 
 
-After create the environment, you can activate the `PROST` environment by: 
+You can activate the `PROST1` environment by: 
 
     conda activate PROST1
 
 
-If you want to use `PROST` in `Linux` environment, you can install the dependency package using `pip` by:
+If you want to install `PROST` in `Linux` environment, you can install the dependency package using `pip` by:
    
     pip install -r requirements.txt
 
-If you want to use `PROST` in `Windows` environment, you may have trouble installing `rpy2`(see [rpy2](https://pypi.org/project/rpy2/)), thus please install the dependency package first using `pip` by:
+If you want to install `PROST` in `Windows` environment, you may have trouble installing `rpy2`(see [rpy2](https://pypi.org/project/rpy2/)). We recommend following these steps:  
+First, please install the dependency package first using `pip` by:
 
     pip install -r requirements_win.txt
 
-To install `rpy2`, you may need to download the `.whl` installation file to install it manually, we have already downloaded the `rpy2-2.9.5-cp37-cp37m-win_amd64.whl` supported under `Windows` in the `PROST-master` directory, you can install it directly in this directory using the following statement:
+Second, install `rpy2`. You may need to download the `.whl` installation file to install it manually, we have already downloaded the `rpy2-2.9.5-cp37-cp37m-win_amd64.whl` supported under `Windows` in the `PROST-master` directory, you can install it directly in this directory using the following statement:
 
     pip install rpy2-2.9.5-cp37-cp37m-win_amd64.whl
 
 ### 2. Prepare `R` environment
-This algorithm uses the `mclust` package in the `R` language environment, and use it in a python environment via `rpy2`. You can install the R language environment under `PROST1` environment by:
+The `PROST` uses the `mclust` package in the `R` language environment, and links it in a `Python` environment via `rpy2`. You can install the `R` language environment under `PROST1` environment by:
 
     conda install r-base=4.0
     conda install r-mclust==5.4.10
@@ -60,18 +61,20 @@ If you encounter an error during the `build and install` process, it may be due 
     python setup.py build
     python setup.py install
 
-Here the environment configuration is completed! We provide a test code in the `test` folder, in this folder, the data are placed under `datasets`, the results will be stored under `results`. If you want to run the `test example`, you must change the `root path` to `./test` in the `PROST1` environment.
+Here the environment configuration is completed! We provide a test code in the `./test` folder. In this folder, the data are placed under `datasets`, and the results will be stored under `results`. If you want to run the `test example`, you must change the `root path` to `./test` in the `PROST1` environment. You can run `PROST` with `ipython` or `Pycharm`.
 
-In addition, before you can use `PROST`, you must activate the `PROST1` environment, and then you must add the new `R` language path as the `R_HOME` and the `rpy2` package path as the `R_USER` by `os` in python before you using `PROST`. For more details, please refer to the [`DLPFC_test.py`](./test/DLPFC_test.py) under `./test`. 
+In addition, before you use `PROST`, you must activate the `PROST1` environment, and then you must add the new `R` language path as the `R_HOME` and the `rpy2` package path as the `R_USER` by `os` in python before you using `PROST`. You can add the following code to your python script to complete the setup. The `condapath` is the root directory of the conda mentioned at the beginning.
 
-    condapath = "input yours path"  
+    condapath = "input your conda path"  
     os.environ['R_HOME'] = f'{condapath}/envs/PROST1/lib/R'
     os.environ['R_USER'] = f'{condapath}/envs/PROST1/lib/python3.7/site-packages/rpy2'
+
+For more details, please refer to the [`DLPFC_test.py`](./test/DLPFC_test.py) under `./test`. 
 
 ---
 
 ## Turorials
-Our tutorial code is pre-written to run under test, you have to change the path to `./test` and also place the downloaded datasets(The dataset is too large to upload to github) in `./test/datasets` so that you can get the results of the run in `./test/results`. For more flexibility, you may need to modify the `input and output paths` to make sure the paths are correct.
+Our tutorial code is pre-written to run under `./test`, you have to change the path to `./test` and also place the downloaded datasets in `./test/datasets` so that you can get the results of the run in `./test/results`(The dataset is too large to upload to github, you can also download the full code and data directly from [zenodo](https://www.zenodo.org/badge/latestdoi/598575201)). For more flexibility, you may need to modify the `input_dir, output_dir and spatial_dir ` to make sure the paths are correct.
 
 ### [1.Application on 10x Visium human dorsolateral prefrontal cortex (DLPFC) dataset.](./docs/tutorials/DLPFC.md "In this vignette, we analyzed tissue section from the human dorsolateral prefrontal cortex (DLPFC) 10x Visium ST dataset, which was manually annotated as the cortical layers and white matter (WM)") 
 * We performed `PROST` on the 10x Visium human dorsolateral prefrontal cortex (DLPFC) dataset from [(Pardo B. et al. 2022)](https://doi.org/10.1186/s12864-022-08601-w).
@@ -87,10 +90,13 @@ Our tutorial code is pre-written to run under test, you have to change the path 
 * We performed `PROST` on the mouse embryo ST data from [(Lohoff, T. et al. 2022)](https://doi.org/10.1038/s41587-021-01006-2) generated by [seqFISH](https://spatial.caltech.edu/seqfish/).
 * The original data can be downloaded from (https://crukci.shinyapps.io/SpatialMouseAtlas/)
 * A Jupyter Notebook of the tutorial is accessible from : ([SeqFISH_mouse_embryo.ipynb](./docs/vignettes/SeqFISH_mouse_embryo.ipynb))
+
 ---
 
 ## Improvements
 We welcome any comments about `PROST`, and if you find bugs or have any ideas, feel free to leave a comment [FAQ](https://github.com/Tang-Lab-super/PROST/labels/FAQ).
+
+---
 
 ## Zenodo
 [![DOI](https://www.zenodo.org/badge/598575201.svg)](https://www.zenodo.org/badge/latestdoi/598575201)
