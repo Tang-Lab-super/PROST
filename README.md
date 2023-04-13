@@ -108,7 +108,7 @@ Our tutorial code is pre-written to run under `./test`, you have to change the p
 ---
 
 ## Zenodo
-Limited by the size of the datasets, we suggest downloading the complete datasets from [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7824815.svg)](https://doi.org/10.5281/zenodo.7824815)
+Limited by the size of the datasets, we suggest downloading the complete tutorial examples from [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7824815.svg)](https://doi.org/10.5281/zenodo.7824815)
 
 ---
 
