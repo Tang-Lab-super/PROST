@@ -32,6 +32,9 @@ In this vignette, we analyzed tissue section from the human dorsolateral prefron
     SEED = 818
     PROST.setup_seed(SEED)
 
+    #%% Read in data
+    section_num = 151672
+
     # Set the number of clusters
     n_clusters = 5
 
