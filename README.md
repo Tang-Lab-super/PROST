@@ -66,7 +66,7 @@ If you encounter an error during the `build and install` process, it may be due 
     python setup.py build
     python setup.py install
 
-Here, the environment configuration is completed! 
+Here, the environment configuration is completed!  
 Before you can use `PROST`, you have to make sure that the following two steps are taken:
 First, to execute in the `PROST1` environment;
 Second, since `PROST` will use the `R` language in `Python`, you need to add the `R_HOME` and `R_USER` system paths, which we set in python by `os` using the code:
@@ -75,7 +75,7 @@ Second, since `PROST` will use the `R` language in `Python`, you need to add the
     os.environ['R_HOME'] = f'{condapath}/envs/PROST1/lib/R'
     os.environ['R_USER'] = f'{condapath}/envs/PROST1/lib/python3.7/site-packages/rpy2'
 
-The `condapath` is the root directory of the conda mentioned at the beginning(such as:'C:/Users/PC/miniconda3' or '/user/miniconda3'). In the following three turorials, we have added these codes in jupyter notebook file, you just need to add your own `conda root path`.
+The `condapath` is the root directory of the conda mentioned at the beginning(such as:`C:/Users/PC/miniconda3` or `/user/miniconda3`). In the following three turorials, we have added these codes in jupyter notebook file, you just need to add your own `conda root path`.
 
 
 ### 4.Test `PROST`
