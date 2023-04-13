@@ -22,9 +22,9 @@ In this vignette, We applied PROST onto a SeqFISH-profiled dataset to evaluate i
 ### 2.Set up the working environment and import data 
 
     # the location of R (used for the mclust clustering)
-    condapath = "input yours path"  
-    os.environ['R_HOME'] = f'{condapath}/envs/PROST1/lib/R'
-    os.environ['R_USER'] = f'{condapath}/envs/PROST1/lib/python3.7/site-packages/rpy2'
+    ENVpath = "your path of PROST_ENV"  
+    os.environ['R_HOME'] = f'{ENVpath}/lib/R'
+    os.environ['R_USER'] = f'{ENVpath}/lib/python3.7/site-packages/rpy2'
 
 
     # Set seed
@@ -32,8 +32,8 @@ In this vignette, We applied PROST onto a SeqFISH-profiled dataset to evaluate i
     PROST.setup_seed(SEED)
     
     # Set directory
-    input_dir = os.path.join('datasets', 'seq-fish/')
-    output_dir = os.path.join('results','seq-fish_result/')
+    input_dir = os.path.join('datasets', 'SeqFISH/')
+    output_dir = os.path.join('results','SeqFISH_result/')
     if not os.path.isdir(output_dir):
         os.makedirs(output_dir)
 
