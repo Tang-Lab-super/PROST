@@ -8,12 +8,12 @@
 Using `PROST` you can do:
 * Quantitative identification of spatial patterns of gene expression changes by the proposed **PROST Index (PI)**.
 
-* Unsupervised identification of spatial domains of ST data by using a **PROST Neural Network (PNN)**. 
+* Unsupervised identification of spatial tissue domains by using a **PROST Neural Network (PNN)**. 
 ---
 
 ## Installation
 ### 1. Prepare `Python` environment
-To install `PROST`, we recommend using the [Anaconda](https://anaconda.org/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) Python Distribution and creating an isolated environment, so that the `PROST` and dependencies don't conflict or interfere with other packages or applications. Please install the `conda` in advance, and record the conda installation directory `condapath` (such as:'C:/Users/PC/miniconda3' or '/user/miniconda3'). 
+To install `PROST`, we recommend using the [Anaconda](https://anaconda.org/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) Python Distribution and creating an isolated environment, so that the `PROST` and dependencies don't conflict or interfere with other packages or applications. Please install the `conda` in advance, and record the conda installation directory `condapath` (such as: '**C:/Users/PC/miniconda3**' in `Windows` or '**/user/miniconda3**' in `Linux` or `macOS`). 
 
 
 ### Create environment 
@@ -27,63 +27,49 @@ The entire installation process takes place in the `PROST-master` directory, so 
 
 We recommend using a conda environment to configure PROST. To create the environment, run the following command in `bash` or `Anaconda Powershell Prompt`:
 
-    conda create -n PROST1 python=3.7
+    conda create -n PROST_ENV python=3.7
 
 
-You can activate the `PROST1` environment by: 
+You can activate the `PROST_ENV` environment by: 
 
-    conda activate PROST1
+    conda activate PROST_ENV
 
 ### Install dependency package 
-a.If you want to install `PROST` in `Linux` environment, you can install the dependency package using `pip` by:
+**a.** If you want to install `PROST` in `Linux` environment, you can install the dependency package using `pip` by:
    
     pip install -r requirements.txt
 
-b.If you want to install `PROST` in `Windows` environment, you may have trouble installing `rpy2`(see [rpy2](https://pypi.org/project/rpy2/)). We recommend following `two steps`:  
-First, please install the dependency package first using `pip` by:
+**b.** If you want to install `PROST` in `Windows` environment, you can install the dependency package using `pip` by:
 
     pip install -r requirements_win.txt
-
-Second, install `rpy2`. You may need to download the `.whl` installation file to install it manually, we have already downloaded the `rpy2-2.9.5-cp37-cp37m-win_amd64.whl` supported under `Windows` in the `PROST-master` directory, you can install it directly in this directory using the following statement:
-
     pip install rpy2-2.9.5-cp37-cp37m-win_amd64.whl
 
 ### 2. Prepare `R` environment
-The `PROST` uses the `mclust` package in the `R` language environment, and links it in a `Python` environment via `rpy2`. You can install the `R` language environment under `PROST1` environment by:
+The `PROST` uses the `mclust` package in the `R` language environment, and links it in a `Python` environment via `rpy2`. You can install the `R` language environment under `PROST_ENV` environment by:
 
     conda install r-base=4.0
     conda install r-mclust==5.4.10
 
 ### 3. Install `PROST`
-Install the `PROST` package using:
-                                          
-    python setup.py build
-    python setup.py install
-    
-If you encounter an error during the `build and install` process, it may be due to the setuptools version being too high, which can be solved by:
+Install the `PROST` package under `PROST_ENV`environment by:
 
     pip install setuptools==58.2.0
     python setup.py build
     python setup.py install
 
-Here, the environment configuration is completed!  
-Before you can use `PROST`, you have to make sure that the following two steps are taken:
-First, to execute in the `PROST1` environment;
-Second, since `PROST` will use the `R` language in `Python`, you need to add the `R_HOME` and `R_USER` system paths, which we set in python by `os` using the code:
+Here, the environment configuration is completed! 
 
-    condapath = "input your conda path"  
-    os.environ['R_HOME'] = f'{condapath}/envs/PROST1/lib/R'
-    os.environ['R_USER'] = f'{condapath}/envs/PROST1/lib/python3.7/site-packages/rpy2'
+### 4. How to use `PROST`
+Before you can use `PROST`, you have to make sure that the following two steps are taken:  
+* `PROST_ENV` environment is activated; 
+* Add `environment variables` using the following `python code` before using `PROST`：
 
-The `condapath` is the root directory of the conda mentioned at the beginning(such as:`C:/Users/PC/miniconda3` or `/user/miniconda3`). In the following three turorials, we have added these codes in jupyter notebook file, you just need to add your own `conda root path`.
+        import os
+        ENVpath = "your path of PROST_ENV"  
+        os.environ['R_HOME'] = f'{ENVpath}/lib/R'
+        os.environ['R_USER'] = f'{ENVpath}/lib/python3.7/site-packages/rpy2'
 
-
-### 4.Test `PROST`
-We provide three analysis examples which from different types of spatial transcriptome data. We document the entire analysis using jupyter notebook, the code is available in the `./test` file under `PROST-master`. In this folder, the data are placed under `datasets`, and the results will be stored under `results`. If you want to run the `test example`, you must change the `root path` to `./test`. 
-
-    cd ./test
-
-You can run those examples with `ipython` or `Pycharm` under the `PROST1` environment. See the `Turorials` section below for details.
+**Note: using `conda info -e` can get `your path of PROST_ENV`.**
 
 ---
 
