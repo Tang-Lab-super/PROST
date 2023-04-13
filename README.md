@@ -25,14 +25,17 @@ The entire installation process takes place in the `PROST-master` directory, so 
    
     cd PROST-master
 
-We recommend using a conda environment to configure PROST. To create the environment, run the following command in `bash` or `Anaconda Powershell Prompt`:
+We recommend using a conda environment to configure PROST. To create and activate the environment `PROST_ENV`:  
+**a.** If you use `Linux` or `Windows`, Run the following command in `bash` or `Anaconda Powershell Prompt`:
 
     conda create -n PROST_ENV python=3.7
-
-
-You can activate the `PROST_ENV` environment by: 
-
     conda activate PROST_ENV
+
+**b.** If you use `MacOS`, you may run the command instead:
+
+    conda config --env --set subdir osx-64
+    conda create -n PROST_ENV python=3.7 -c conda-forge
+
 
 ### Install dependency packages 
 **a.** If you want to install `PROST` in `Linux` environment, you can install the dependency packages using `pip` by:
@@ -43,6 +46,11 @@ You can activate the `PROST_ENV` environment by:
 
     pip install -r requirements_win.txt
     pip install rpy2-2.9.5-cp37-cp37m-win_amd64.whl
+
+**c.** If you want to install `PROST` in `MacOS` environment, you can install the dependency packages using `pip` by:
+    
+    pip install -r requirements_mac.txt
+    RPY2_CFFI_MODE=BOTH pip3 install rpy2
 
 ### 2. Prepare `R` environment
 The `PROST` uses the `mclust` package in the `R` language environment, and links it in a `Python` environment via `rpy2`. You can install the `R` language environment under `PROST_ENV` environment by:
