@@ -14,9 +14,15 @@ Using `PROST` you can do:
 
 ## Installation
 ### 1. Prepare `Python` environment
-To install `PROST`, we recommend using the [Anaconda](https://anaconda.org/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) Python Distribution and creating an isolated environment, so that the `PROST` and dependencies don't conflict or interfere with other packages or applications. Please install the `conda` in advance, and record the conda installation directory `condapath` (such as:'C:/Users/PC/miniconda3' or '/user/miniconda3').
+To install `PROST`, we recommend using the [Anaconda](https://anaconda.org/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) Python Distribution and creating an isolated environment, so that the `PROST` and dependencies don't conflict or interfere with other packages or applications. Please install the `conda` in advance, and record the conda installation directory `condapath` (such as:'C:/Users/PC/miniconda3' or '/user/miniconda3'). 
 
-First, please download or clone the `PROST-master.zip` file from github `Code` and unzip it. The entire installation process takes place in the `PROST-master` directory, so first go to that directory by:
+
+### Create environment 
+First, please download or clone the `PROST-master.zip` file from github `Code` and unzip it. 
+
+    git clone https://github.com/Tang-Lab-super/PROST.git
+
+The entire installation process takes place in the `PROST-master` directory, so first go to that directory by:
    
     cd PROST-master
 
@@ -29,12 +35,12 @@ You can activate the `PROST1` environment by:
 
     conda activate PROST1
 
-
-If you want to install `PROST` in `Linux` environment, you can install the dependency package using `pip` by:
+### Install dependency package 
+a.If you want to install `PROST` in `Linux` environment, you can install the dependency package using `pip` by:
    
     pip install -r requirements.txt
 
-If you want to install `PROST` in `Windows` environment, you may have trouble installing `rpy2`(see [rpy2](https://pypi.org/project/rpy2/)). We recommend following these steps:  
+b.If you want to install `PROST` in `Windows` environment, you may have trouble installing `rpy2`(see [rpy2](https://pypi.org/project/rpy2/)). We recommend following `two steps`:  
 First, please install the dependency package first using `pip` by:
 
     pip install -r requirements_win.txt
@@ -63,7 +69,9 @@ If you encounter an error during the `build and install` process, it may be due 
 
 Here the environment configuration is completed! We provide a test code in the `./test` folder. In this folder, the data are placed under `datasets`, and the results will be stored under `results`. If you want to run the `test example`, you must change the `root path` to `./test` in the `PROST1` environment. You can run `PROST` with `ipython` or `Pycharm`.
 
-In addition, before you use `PROST`, you must activate the `PROST1` environment, and then you must add the new `R` language path as the `R_HOME` and the `rpy2` package path as the `R_USER` by `os` in python before you using `PROST`. You can add the following code to your python script to complete the setup. The `condapath` is the root directory of the conda mentioned at the beginning.
+In addition, before you use `PROST`, you must activate the `PROST1` environment, and then you must add the new `R` language path as the `R_HOME` and the `rpy2` package path as the `R_USER` by `os` in python before you using `PROST`. 
+
+You can add the following code to your `Python script` to complete the setup. The `condapath` is the root directory of the conda mentioned at the beginning.
 
     condapath = "input your conda path"  
     os.environ['R_HOME'] = f'{condapath}/envs/PROST1/lib/R'
