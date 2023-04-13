@@ -35,9 +35,16 @@ We recommend using a conda environment to configure PROST. To create and activat
 
     conda config --env --set subdir osx-64
     conda create -n PROST_ENV python=3.7 -c conda-forge
+    conda activate PROST_ENV
+
+### 2. Prepare `R` environment
+The `PROST` uses the `mclust` package in the `R` language environment, and links it in a `Python` environment via `rpy2`. You can install the `R` language environment under `PROST_ENV` environment by:
+
+    conda install r-base=4.0
+    conda install r-mclust==5.4.10
 
 
-### Install dependency packages 
+### 3. Install dependency packages 
 **a.** If you want to install `PROST` in `Linux` environment, you can install the dependency packages using `pip` by:
    
     pip install -r requirements.txt
@@ -52,13 +59,7 @@ We recommend using a conda environment to configure PROST. To create and activat
     pip install -r requirements_mac.txt
     RPY2_CFFI_MODE=BOTH pip3 install rpy2
 
-### 2. Prepare `R` environment
-The `PROST` uses the `mclust` package in the `R` language environment, and links it in a `Python` environment via `rpy2`. You can install the `R` language environment under `PROST_ENV` environment by:
-
-    conda install r-base=4.0
-    conda install r-mclust==5.4.10
-
-### 3. Install `PROST`
+### 4. Install `PROST`
 Install the `PROST` package under `PROST_ENV`environment by:
 
     pip install setuptools==58.2.0
@@ -85,13 +86,14 @@ Before you use `PROST`, you have to make sure that the following two steps are t
 
 ## Turorials
 ### Quick Start
-* After `PROST` installation, we suggest downloading the complete tutorial examples from [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7825971.svg)](https://doi.org/10.5281/zenodo.7825971)(The dataset is too large to upload to github). Similarly, you can download the dataset for each turorial individually via the `google drive` below. After you have downloaded the folder, unzip it and move the files to the datasets.
+* After `PROST` installation, we suggest downloading the complete tutorial examples from [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7825971.svg)](https://doi.org/10.5281/zenodo.7825971)(The dataset is too large to upload to github, there only 1 case (151672) of DLPFC data).   
+Similarly, you can download the dataset for each turorial individually via the `google drive` below. After you have downloaded the folder, unzip it and move the files to the datasets.
 
-* Before running the tutorial, make sure your current path is in `/PROST-master/test`.
+* Before running the tutorial, make sure your current path is in `/PROST-master/test`. **This facilitates you to perform PROST tests quickly.** In this folder, `data` in `datasets` and `result` will be stored in `results`. 
 
         cd ./test
 
-In this path, `data` in `datasets` and `results` will store in `result`. For more flexibility, you may need to modify the `input_dir, output_dir and spatial_dir ` to make sure the paths are correct.
+For more flexibility, you may need to modify the `input_dir, output_dir and spatial_dir ` to make sure the paths are correct.
 
 ### [1.Application on 10x Visium human dorsolateral prefrontal cortex (DLPFC) dataset.](./docs/tutorials/DLPFC.md "In this vignette, we analyzed tissue section from the human dorsolateral prefrontal cortex (DLPFC) 10x Visium ST dataset, which was manually annotated as the cortical layers and white matter (WM)") 
 * **1.1** We performed `PROST` on the 10x Visium human dorsolateral prefrontal cortex (DLPFC) dataset from [(Pardo B. et al. 2022)](https://doi.org/10.1186/s12864-022-08601-w).
@@ -114,5 +116,3 @@ In this path, `data` in `datasets` and `results` will store in `result`. For mor
 We welcome any comments about `PROST`, and if you find bugs or have any ideas, feel free to leave a comment [FAQ](https://github.com/Tang-Lab-super/PROST/labels/FAQ).
 
 ---
-
-
