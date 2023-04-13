@@ -32,12 +32,14 @@ In this vignette, we analyzed tissue section from the human dorsolateral prefron
     SEED = 818
     PROST.setup_seed(SEED)
 
-    # Read in data and select n_clusters
-    section_num = 151672                # select 151672 as the test
-    if section_num in [151669,151670,151671,151672]:
-        n_clusters = 5
-    else:
-        n_clusters = 7
+    # Set the number of clusters
+    n_clusters = 5
+
+    # We recommend using the following policy to set the number
+    # if section_num in [151669,151670,151671,151672]:
+    #     n_clusters = 5
+    # else:
+    #     n_clusters = 7
     
     # Set directory
     input_dir = os.path.join('datasets/DLPFC', str(section_num))
