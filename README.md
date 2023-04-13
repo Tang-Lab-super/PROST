@@ -104,3 +104,5 @@ Our tutorial code is pre-written to run under `./test`, you have to change the p
 ## Improvements
 We welcome any comments about `PROST`, and if you find bugs or have any ideas, feel free to leave a comment [FAQ](https://github.com/Tang-Lab-super/PROST/labels/FAQ).
 
+## Zenodo
+The complete datasets and codes can be downloaded at [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7824815.svg)](https://doi.org/10.5281/zenodo.7824815)
