@@ -23,15 +23,16 @@ In this vignette, we analysis an ST dataset with cellular resolution (~14 μm in
 ### 2.Set up the working environment and import data 
 
     # the location of R (used for the mclust clustering)
-    condapath = "input yours path"  
-    os.environ['R_HOME'] = f'{condapath}/envs/PROST1/lib/R'
-    os.environ['R_USER'] = f'{condapath}/envs/PROST1/lib/python3.7/site-packages/rpy2'
+    ENVpath = "your path of PROST_ENV"  
+    os.environ['R_HOME'] = f'{ENVpath}/lib/R'
+    os.environ['R_USER'] = f'{ENVpath}/lib/python3.7/site-packages/rpy2'
+
 
     # Set seed
     SEED = 818
     PROST.setup_seed(SEED)
 
-    input_dir = os.path.join('datasets')
+    input_dir = os.path.join('datasets', 'Stereo-seq/')
     output_dir = os.path.join('results','Stereo-seq_result')
     if not os.path.isdir(output_dir):
         os.makedirs(output_dir)
