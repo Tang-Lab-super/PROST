@@ -31,6 +31,9 @@ In this vignette, We applied PROST onto a SeqFISH-profiled dataset to evaluate i
     SEED = 818
     PROST.setup_seed(SEED)
     
+    # Set the number of clusters
+    n_clusters = 24
+    
     # Set directory
     input_dir = os.path.join('datasets', 'SeqFISH/')
     output_dir = os.path.join('results','SeqFISH_result/')
@@ -179,7 +182,7 @@ To assess the credibility of SVGs detected by these methods, we respectively use
                         platform="SeqFISH", 
                         min_distance = 3,
                         init="mclust",
-                        n_clusters = 24,                      
+                        n_clusters = n_clusters,                      
                         tol = 5e-3,
                         laplacin_filter = True,
                         lr = 0.1, 
