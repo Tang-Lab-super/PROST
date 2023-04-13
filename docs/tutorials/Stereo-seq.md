@@ -23,8 +23,9 @@ In this vignette, we analysis an ST dataset with cellular resolution (~14 μm in
 ### 2.Set up the working environment and import data 
 
     # the location of R (used for the mclust clustering)
-    os.environ['R_HOME'] = '{your conda path}/envs/R-PROST/lib/R'
-    os.environ['R_USER'] = '{your conda path}/envs/PROST1/lib/python3.7/site-packages/rpy2'
+    condapath = "input yours path"  
+    os.environ['R_HOME'] = f'{condapath}/envs/PROST1/lib/R'
+    os.environ['R_USER'] = f'{condapath}/envs/PROST1/lib/python3.7/site-packages/rpy2'
 
     # Set seed
     SEED = 818
