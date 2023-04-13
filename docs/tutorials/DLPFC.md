@@ -22,9 +22,9 @@ In this vignette, we analyzed tissue section from the human dorsolateral prefron
 ### 2.Set up the working environment and import data 
 
     # the location of R (used for the mclust clustering)
-   condapath = "input yours path"  
-   os.environ['R_HOME'] = f'{condapath}/envs/PROST1/lib/R'
-   os.environ['R_USER'] = f'{condapath}/envs/PROST1/lib/python3.7/site-packages/rpy2'
+    condapath = "input yours path"  
+    os.environ['R_HOME'] = f'{condapath}/envs/PROST1/lib/R'
+    os.environ['R_USER'] = f'{condapath}/envs/PROST1/lib/python3.7/site-packages/rpy2'
 
 
     # Set seed
