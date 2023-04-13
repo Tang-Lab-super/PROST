@@ -75,7 +75,7 @@ Before you use `PROST`, you have to make sure that the following two steps are t
 
 ## Turorials
 ### Quick Start
-* After `PROST` installation, we suggest downloading the complete tutorial examples from [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7824815.svg)](https://doi.org/10.5281/zenodo.7824815)(The dataset is too large to upload to github). Similarly, you can download the dataset for each turorial individually via the `google drive` below. After you have downloaded the folder, unzip it and move the files to the datasets.
+* After `PROST` installation, we suggest downloading the complete tutorial examples from [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7825971.svg)](https://doi.org/10.5281/zenodo.7825971)(The dataset is too large to upload to github). Similarly, you can download the dataset for each turorial individually via the `google drive` below. After you have downloaded the folder, unzip it and move the files to the datasets.
 
 * Before running the tutorial, make sure your current path is in `/PROST-master/test`.
 
