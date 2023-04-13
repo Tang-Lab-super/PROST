@@ -13,7 +13,7 @@ Using `PROST` you can do:
 
 ## Installation
 ### 1. Prepare `Python` environment
-To install `PROST`, we recommend using the [Anaconda](https://anaconda.org/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) Python Distribution and creating an isolated environment, so that the `PROST` and dependencies don't conflict or interfere with other packages or applications. Please install the `conda` in advance, and record the conda installation directory `condapath` (such as: '**C:/Users/PC/miniconda3**' in `Windows` or '**/user/miniconda3**' in `Linux` or `macOS`). 
+To install `PROST`, we recommend using the [Anaconda](https://anaconda.org/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) Python Distribution and creating an isolated environment, so that the `PROST` and dependencies don't conflict or interfere with other packages or applications. Please install the `conda` in advance. 
 
 
 ### Create environment 
