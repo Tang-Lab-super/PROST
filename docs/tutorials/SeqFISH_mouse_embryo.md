@@ -22,7 +22,7 @@ In this vignette, We applied PROST onto a SeqFISH-profiled dataset to evaluate i
 ### 2.Set up the working environment and import data 
 
     # the location of R (used for the mclust clustering)
-    ENVpath = "your path of PROST_ENV"  
+    ENVpath = "your path of PROST_ENV"            # refer to 'How to use PROST' section    
     os.environ['R_HOME'] = f'{ENVpath}/lib/R'
     os.environ['R_USER'] = f'{ENVpath}/lib/python3.7/site-packages/rpy2'
 
@@ -31,10 +31,8 @@ In this vignette, We applied PROST onto a SeqFISH-profiled dataset to evaluate i
     SEED = 818
     PROST.setup_seed(SEED)
     
-    # Set the number of clusters
-    n_clusters = 24
     
-    # Set directory
+    # Set directory (If you want to use additional data, please change the file path)
     input_dir = os.path.join('datasets', 'SeqFISH/')
     output_dir = os.path.join('results','SeqFISH_result/')
     if not os.path.isdir(output_dir):
@@ -168,6 +166,10 @@ To assess the credibility of SVGs detected by these methods, we respectively use
 
 --- 
 ## Clustering 
+    # Set the number of clusters
+    n_clusters = 24
+    
+
 ### 1.Read PI result and Expression data preprocessing
     PROST.setup_seed(SEED)
     # Read PI result
