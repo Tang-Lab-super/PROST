@@ -31,7 +31,11 @@ In this vignette, we analysis an ST dataset with cellular resolution (~14 μm in
     # Set seed
     SEED = 818
     PROST.setup_seed(SEED)
+    
+    # Set the number of clusters
+    n_clusters = 11
 
+    # set dir
     input_dir = os.path.join('datasets', 'Stereo-seq/')
     output_dir = os.path.join('results','Stereo-seq_result')
     if not os.path.isdir(output_dir):
@@ -96,7 +100,7 @@ In this vignette, we analysis an ST dataset with cellular resolution (~14 μm in
                         platform="stereo-seq", 
                         min_distance = 50,
                         init="mclust",
-                        n_clusters = 11,                     
+                        n_clusters = n_clusters,                     
                         tol = 5e-3,
                         laplacin_filter = True,
                         SEED=SEED,
