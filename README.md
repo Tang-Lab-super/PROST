@@ -66,7 +66,7 @@ Install the `PROST` package under `PROST_ENV`environment by:
     python setup.py build
     python setup.py install
 
-Here, the environment configuration is completed！If you are using `MacOS`, you may get a `segmentation fault` when running `PNN`, which may be a compatibility issue. You may try it running as a script. 
+Here, the environment configuration is completed！If you are using `MacOS`, you may get a `segmentation fault` when running `PNN`, which may be a compatibility issue. You may try it running as a `script`. 
 
 ---
 
