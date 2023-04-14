@@ -66,7 +66,7 @@ Install the `PROST` package under `PROST_ENV`environment by:
     python setup.py build
     python setup.py install
 
-Here, the environment configuration is completed！If you are using `MacOS`, you may get a `segmentation fault` when running `PNN`, which may be a compatibility issue. You may try it running as a `script`. 
+Here, the environment configuration is completed！
 
 ---
 
@@ -114,5 +114,6 @@ For more flexibility, you may need to modify the `rootdir` to make sure the path
 
 ## Improvements
 We welcome any comments about `PROST`, and if you find bugs or have any ideas, feel free to leave a comment [FAQ](https://github.com/Tang-Lab-super/PROST/labels/FAQ).
+If you are using `MacOS`, you may get a `segmentation fault` when running `PNN`, which may be a compatibility issue. You may try it running as a `script`. 
 
 ---
