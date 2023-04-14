@@ -66,7 +66,7 @@ Install the `PROST` package under `PROST_ENV`environment by:
     python setup.py build
     python setup.py install
 
-Here, the environment configuration is completed! 
+Here, the environment configuration is completed！If you are using `MacOS`, you may get a `segment error` when running PNN, which may be a compatibility issue. 
 
 ---
 
