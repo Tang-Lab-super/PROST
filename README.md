@@ -40,7 +40,7 @@ We recommend using a conda environment to configure PROST. To create and activat
 ### 2. Prepare `R` environment
 The `PROST` uses the `mclust` package in the `R` language environment, and links it in a `Python` environment via `rpy2`. You can install the `R` language environment under `PROST_ENV` environment by:
 
-    conda install r-base=4.0
+    conda install r-base
     conda install -c conda-forge r-mclust==5.4.10
 
 
