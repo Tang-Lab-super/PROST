@@ -40,8 +40,8 @@ We recommend using a conda environment to configure PROST. To create and activat
 ### 2. Prepare `R` environment
 The `PROST` uses the `mclust` package in the `R` language environment, and links it in a `Python` environment via `rpy2`. You can install the `R` language environment under `PROST_ENV` environment by:
 
-    conda install r-base
-    conda install -c conda-forge r-mclust==5.4.10
+    conda install -c conda-forge r-base
+    conda install -c conda-forge r-mclust=5.4.10
 
 
 ### 3. Install dependency packages 
@@ -89,11 +89,11 @@ Before you use `PROST`, you have to make sure that the following two steps are t
 * After `PROST` installation, we suggest downloading the complete tutorial examples from [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7825971.svg)](https://doi.org/10.5281/zenodo.7825971)(The dataset is too large to upload to github, there only 1 case (151672) of DLPFC data).   
 Similarly, you can download the dataset for each turorial individually via the `google drive` below. After you have downloaded the folder, unzip it and move the files to the datasets.
 
-* Before running the tutorial, make sure your current path is in `/PROST-master/test`. **This facilitates you to perform PROST tests quickly.** In this folder, `data` in `datasets` and `result` will be stored in `results`. 
+* Before running the tutorial, make sure your current path is in `/PROST-master/test`. **This facilitates you to perform PROST tests quickly.** In this folder, `data` in `datasets` and `result` will be stored under the corresponding data folder `results`. 
 
         cd ./test
 
-For more flexibility, you may need to modify the `input_dir, output_dir and spatial_dir ` to make sure the paths are correct.
+For more flexibility, you may need to modify the `rootdir` to make sure the paths are correct.
 
 ### [1.Application on 10x Visium human dorsolateral prefrontal cortex (DLPFC) dataset.](./docs/tutorials/DLPFC.md "In this vignette, we analyzed tissue section from the human dorsolateral prefrontal cortex (DLPFC) 10x Visium ST dataset, which was manually annotated as the cortical layers and white matter (WM)") 
 * **1.1** We performed `PROST` on the 10x Visium human dorsolateral prefrontal cortex (DLPFC) dataset from [(Pardo B. et al. 2022)](https://doi.org/10.1186/s12864-022-08601-w).
