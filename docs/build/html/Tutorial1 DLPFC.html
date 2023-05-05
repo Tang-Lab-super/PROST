@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DLPFC Analysis &mdash; PROST v1.1.2 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PROST
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">DLPFC Analysis</a><ul>
+<li><a class="reference internal" href="#identify-svgs">Identify SVGs</a><ul>
+<li><a class="reference internal" href="#load-prost-and-its-dependent-packages">1.Load PROST and its dependent packages</a></li>
+<li><a class="reference internal" href="#set-up-the-working-environment-and-import-data">2.Set up the working environment and import data</a></li>
+<li><a class="reference internal" href="#calculate-and-save-pi">3.Calculate and save PI</a></li>
+<li><a class="reference internal" href="#draw-svgs-detected-by-pi">4.Draw SVGs detected by PI</a></li>
+<li><a class="reference internal" href="#calculate-moran-i-and-geary-c-for-svgs-dected-by-pi">5.Calculate Moran’I and Geary’C for SVGs dected by PI</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clustering">Clustering</a><ul>
+<li><a class="reference internal" href="#read-pi-result-and-expression-data-preprocessing">1.Read PI result and Expression data preprocessing</a></li>
+<li><a class="reference internal" href="#run-prost-clustering">2.Run PROST clustering</a></li>
+<li><a class="reference internal" href="#save-result">3.Save result</a></li>
+<li><a class="reference internal" href="#plot-clustering-results">4.Plot clustering results</a></li>
+<li><a class="reference internal" href="#calculate-ari-and-nmi">5.Calculate ARI and NMI</a></li>
+<li><a class="reference internal" href="#plot-umap-and-paga-graph">6.Plot UMAP and PAGA graph</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PROST</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">DLPFC Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Tutorial1 DLPFC.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dlpfc-analysis">
+<h1>DLPFC Analysis<a class="headerlink" href="#dlpfc-analysis" title="Permalink to this heading"></a></h1>
+<p>In this vignette, we analyzed tissue section from the human dorsolateral prefrontal cortex (DLPFC) 10x Visium ST dataset, which was manually annotated as the cortical layers and white matter (WM). The manual annotations were used as the ground truth to evaluate the accuracy of spatial domain segmentation.</p>
+<hr class="docutils" />
+<section id="identify-svgs">
+<h2>Identify SVGs<a class="headerlink" href="#identify-svgs" title="Permalink to this heading"></a></h2>
+<section id="load-prost-and-its-dependent-packages">
+<h3>1.Load PROST and its dependent packages<a class="headerlink" href="#load-prost-and-its-dependent-packages" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">scanpy</span> <span class="k">as</span> <span class="nn">sc</span> 
+<span class="kn">import</span> <span class="nn">os</span> 
+<span class="kn">import</span> <span class="nn">warnings</span> 
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span> 
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
+<span class="kn">import</span> <span class="nn">PROST</span> 
+<span class="n">PROST</span><span class="o">.</span><span class="n">__version__</span> 
+
+
+<span class="o">&gt;&gt;&gt;</span> <span class="s1">&#39; 1.1.2 &#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="set-up-the-working-environment-and-import-data">
+<h3>2.Set up the working environment and import data<a class="headerlink" href="#set-up-the-working-environment-and-import-data" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># the location of R (used for the mclust clustering)</span>
+<span class="n">ENVpath</span> <span class="o">=</span> <span class="s2">&quot;your path of PROST_ENV&quot;</span>            <span class="c1"># refer to &#39;How to use    PROST&#39; section</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;R_HOME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ENVpath</span><span class="si">}</span><span class="s1">/lib/R&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;R_USER&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ENVpath</span><span class="si">}</span><span class="s1">/lib/python3.7/site-packages/rpy2&#39;</span>
+
+<span class="c1"># Set seed</span>
+<span class="n">SEED</span> <span class="o">=</span> <span class="mi">818</span>
+<span class="n">PROST</span><span class="o">.</span><span class="n">setup_seed</span><span class="p">(</span><span class="n">SEED</span><span class="p">)</span>
+
+<span class="c1">#%% Read in data</span>
+<span class="n">section_num</span> <span class="o">=</span> <span class="mi">151672</span>
+
+<span class="c1"># Set directory (If you want to use additional data, please     change the file path)</span>
+<span class="n">rootdir</span> <span class="o">=</span> <span class="s1">&#39;datasets/DLPFC&#39;</span>
+
+<span class="n">input_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rootdir</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">section_num</span><span class="p">))</span>
+<span class="n">spatial_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rootdir</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">section_num</span><span class="p">),</span>  <span class="s1">&#39;spatial&#39;</span><span class="p">)</span>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rootdir</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">section_num</span><span class="p">),</span>   <span class="s1">&#39;results&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">output_dir</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+
+<span class="c1"># Read data from input_dir</span>
+<span class="n">adata</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">read_visium</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">input_dir</span><span class="p">,</span> <span class="n">count_file</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_filtered_feature_bc_matrix.h5&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">section_num</span><span class="p">))</span>
+<span class="n">adata</span><span class="o">.</span><span class="n">var_names_make_unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="calculate-and-save-pi">
+<h3>3.Calculate and save PI<a class="headerlink" href="#calculate-and-save-pi" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>adata = PROST.prepare_for_PI(adata, platform=&quot;visium&quot;)
+adata = PROST.cal_prost_index(adata, platform=&quot;visium&quot;)
+adata.write_h5ad(output_dir+&quot;/PI_result.h5&quot;)
+
+&gt;&gt;&gt; Variable names are not unique. To make them unique, call `.var_names_make_unique`.
+&gt;&gt;&gt; Variable names are not unique. To make them unique, call `.var_names_make_unique`.
+&gt;&gt;&gt; Filtering genes ...
+&gt;&gt;&gt; Calculating image index 1D:
+&gt;&gt;&gt; 100%|██████████| 4015/4015 [00:00&lt;00:00, 70423.08it/s]
+&gt;&gt;&gt; Trying to set attribute `.var` of view, copying.
+&gt;&gt;&gt; Normalization to each gene:
+&gt;&gt;&gt; 100%|██████████| 5083/5083 [00:00&lt;00:00, 13624.30it/s]
+&gt;&gt;&gt; Gaussian filtering for each gene:
+&gt;&gt;&gt; 100%|██████████| 5083/5083 [01:07&lt;00:00, 74.99it/s]
+&gt;&gt;&gt; Binary segmentation for each gene:
+&gt;&gt;&gt; 100%|██████████| 5083/5083 [03:44&lt;00:00, 22.60it/s]
+&gt;&gt;&gt; Spliting subregions for each gene:
+&gt;&gt;&gt; 100%|██████████| 5083/5083 [01:14&lt;00:00, 68.52it/s]
+&gt;&gt;&gt; Computing PROST Index for each gene:
+&gt;&gt;&gt; 100%|██████████| 5083/5083 [00:03&lt;00:00, 1478.57it/s]
+&gt;&gt;&gt; PROST Index calculation completed !!
+</pre></div>
+</div>
+</section>
+<section id="draw-svgs-detected-by-pi">
+<h3>4.Draw SVGs detected by PI<a class="headerlink" href="#draw-svgs-detected-by-pi" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>PROST.plot_gene(adata, platform=&quot;visium&quot;,size = 2, sorted_by = &quot;PI&quot;, top_n = 25,save_path = output_dir)
+
+
+&gt;&gt;&gt; ... storing &#39;feature_types&#39; as categorical
+&gt;&gt;&gt; ... storing &#39;genome&#39; as categorical
+&gt;&gt;&gt; Drawing pictures:
+&gt;&gt;&gt; 100%|██████████| 1/1 [00:09&lt;00:00,  9.55s/it]
+&gt;&gt;&gt; Drawing completed !!
+</pre></div>
+</div>
+<p><img alt="DLPFC_pi_output" src="_images/DLPFC_pi_output.png" /></p>
+</section>
+<section id="calculate-moran-i-and-geary-c-for-svgs-dected-by-pi">
+<h3>5.Calculate Moran’I and Geary’C for SVGs dected by PI<a class="headerlink" href="#calculate-moran-i-and-geary-c-for-svgs-dected-by-pi" title="Permalink to this heading"></a></h3>
+<p>To assess the credibility of SVGs detected by these methods, we respectively used the spatial information of SVGs to calculate Moran’s I and Geary’s C statistics.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>PROST.cal_moran_I_and_geary_C_for_PI_SVGs(adata, PI_top_n=50, save_path = output_dir)
+
+
+&gt;&gt;&gt; 100%|██████████| 50/50 [00:28&lt;00:00,  1.73it/s]
+&gt;&gt;&gt; Average Moran&#39;I of SVGs detected by PI = 0.4530851882366425 
+&gt;&gt;&gt; Median Moran&#39;I of SVGs detected by PI = 0.3949756315601886 
+&gt;&gt;&gt; Average Geary&#39;C of SVGs detected by PI = 0.5463279557091569 
+&gt;&gt;&gt; Median Geary&#39;C of SVGs detected by PI = 0.603879980983322
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th></th>
+<th>geneID</th>
+<th>PI</th>
+<th>Moran_I</th>
+<th>Geary_C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>MT-ND2</td>
+<td>0.876836</td>
+<td>0.710244</td>
+<td>0.286052</td>
+</tr>
+<tr>
+<td>1</td>
+<td>MT-ATP6</td>
+<td>0.834577</td>
+<td>0.718307</td>
+<td>0.279474</td>
+</tr>
+<tr>
+<td>2</td>
+<td>MT-CO2</td>
+<td>0.816857</td>
+<td>0.735137</td>
+<td>0.265031</td>
+</tr>
+<tr>
+<td>3</td>
+<td>MT-ND1</td>
+<td>0.811519</td>
+<td>0.719740</td>
+<td>0.276575</td>
+</tr>
+<tr>
+<td>4</td>
+<td>MT-ND4</td>
+<td>0.778537</td>
+<td>0.709382</td>
+<td>0.286116</td>
+</tr>
+<tr>
+<td>5</td>
+<td>MT-CO1</td>
+<td>0.765785</td>
+<td>0.718532</td>
+<td>0.278538</td>
+</tr>
+<tr>
+<td>6</td>
+<td>MT-CYB</td>
+<td>0.742643</td>
+<td>0.685484</td>
+<td>0.314671</td>
+</tr>
+<tr>
+<td>7</td>
+<td>MT-ND3</td>
+<td>0.729128</td>
+<td>0.694250</td>
+<td>0.305809</td>
+</tr>
+<tr>
+<td>8</td>
+<td>MT-CO3</td>
+<td>0.720694</td>
+<td>0.732460</td>
+<td>0.268270</td>
+</tr>
+<tr>
+<td>9</td>
+<td>MT-ND5</td>
+<td>0.521871</td>
+<td>0.504742</td>
+<td>0.494602</td>
+</tr>
+<tr>
+<td>10</td>
+<td>MT3</td>
+<td>0.493878</td>
+<td>0.503795</td>
+<td>0.495233</td>
+</tr>
+<tr>
+<td>11</td>
+<td>SCGB2A2</td>
+<td>0.478912</td>
+<td>0.680801</td>
+<td>0.326584</td>
+</tr>
+<tr>
+<td>12</td>
+<td>MTRNR2L8</td>
+<td>0.473016</td>
+<td>0.594114</td>
+<td>0.403804</td>
+</tr>
+<tr>
+<td>13</td>
+<td>FTH1</td>
+<td>0.371137</td>
+<td>0.464734</td>
+<td>0.536722</td>
+</tr>
+<tr>
+<td>14</td>
+<td>CST3</td>
+<td>0.364869</td>
+<td>0.484264</td>
+<td>0.514394</td>
+</tr>
+<tr>
+<td>15</td>
+<td>RPL41</td>
+<td>0.357543</td>
+<td>0.430153</td>
+<td>0.565999</td>
+</tr>
+<tr>
+<td>16</td>
+<td>NDUFA4</td>
+<td>0.330432</td>
+<td>0.423861</td>
+<td>0.579269</td>
+</tr>
+<tr>
+<td>17</td>
+<td>MBP</td>
+<td>0.326337</td>
+<td>0.494592</td>
+<td>0.505158</td>
+</tr>
+<tr>
+<td>18</td>
+<td>MGP</td>
+<td>0.296306</td>
+<td>0.468846</td>
+<td>0.522271</td>
+</tr>
+<tr>
+<td>19</td>
+<td>SCGB1D2</td>
+<td>0.282661</td>
+<td>0.495585</td>
+<td>0.504803</td>
+</tr>
+<tr>
+<td>20</td>
+<td>TUBA1B</td>
+<td>0.274488</td>
+<td>0.455331</td>
+<td>0.543853</td>
+</tr>
+<tr>
+<td>21</td>
+<td>MTRNR2L12</td>
+<td>0.259394</td>
+<td>0.409218</td>
+<td>0.592105</td>
+</tr>
+<tr>
+<td>22</td>
+<td>TMSB10</td>
+<td>0.252886</td>
+<td>0.492274</td>
+<td>0.509731</td>
+</tr>
+<tr>
+<td>23</td>
+<td>COX6A1</td>
+<td>0.251861</td>
+<td>0.379592</td>
+<td>0.615655</td>
+</tr>
+<tr>
+<td>24</td>
+<td>RPS21</td>
+<td>0.243671</td>
+<td>0.345257</td>
+<td>0.655808</td>
+</tr>
+<tr>
+<td>25</td>
+<td>CLU</td>
+<td>0.243390</td>
+<td>0.360654</td>
+<td>0.640380</td>
+</tr>
+<tr>
+<td>26</td>
+<td>CALM1</td>
+<td>0.241974</td>
+<td>0.341966</td>
+<td>0.657869</td>
+</tr>
+<tr>
+<td>27</td>
+<td>RPL34</td>
+<td>0.241642</td>
+<td>0.377486</td>
+<td>0.626673</td>
+</tr>
+<tr>
+<td>28</td>
+<td>RPL37A</td>
+<td>0.235148</td>
+<td>0.365629</td>
+<td>0.630671</td>
+</tr>
+<tr>
+<td>29</td>
+<td>GAPDH</td>
+<td>0.234806</td>
+<td>0.362507</td>
+<td>0.637499</td>
+</tr>
+<tr>
+<td>30</td>
+<td>SELENOW</td>
+<td>0.232361</td>
+<td>0.338193</td>
+<td>0.663821</td>
+</tr>
+<tr>
+<td>31</td>
+<td>COX6C</td>
+<td>0.232221</td>
+<td>0.457555</td>
+<td>0.541740</td>
+</tr>
+<tr>
+<td>32</td>
+<td>ATP5F1E</td>
+<td>0.232024</td>
+<td>0.341070</td>
+<td>0.657950</td>
+</tr>
+<tr>
+<td>33</td>
+<td>GNAS</td>
+<td>0.223289</td>
+<td>0.380733</td>
+<td>0.617523</td>
+</tr>
+<tr>
+<td>34</td>
+<td>COX4I1</td>
+<td>0.222081</td>
+<td>0.336472</td>
+<td>0.662381</td>
+</tr>
+<tr>
+<td>35</td>
+<td>SNAP25</td>
+<td>0.214184</td>
+<td>0.410525</td>
+<td>0.590272</td>
+</tr>
+<tr>
+<td>36</td>
+<td>MT-ND4L</td>
+<td>0.214032</td>
+<td>0.322941</td>
+<td>0.677345</td>
+</tr>
+<tr>
+<td>37</td>
+<td>CKB</td>
+<td>0.213443</td>
+<td>0.331925</td>
+<td>0.666499</td>
+</tr>
+<tr>
+<td>38</td>
+<td>FTL</td>
+<td>0.212927</td>
+<td>0.357595</td>
+<td>0.643404</td>
+</tr>
+<tr>
+<td>39</td>
+<td>NRGN</td>
+<td>0.210670</td>
+<td>0.344608</td>
+<td>0.652806</td>
+</tr>
+<tr>
+<td>40</td>
+<td>RPS28</td>
+<td>0.210552</td>
+<td>0.339370</td>
+<td>0.658813</td>
+</tr>
+<tr>
+<td>41</td>
+<td>PPIA</td>
+<td>0.210144</td>
+<td>0.306437</td>
+<td>0.696177</td>
+</tr>
+<tr>
+<td>42</td>
+<td>SAA1</td>
+<td>0.208795</td>
+<td>0.357856</td>
+<td>0.638305</td>
+</tr>
+<tr>
+<td>43</td>
+<td>CALM2</td>
+<td>0.206207</td>
+<td>0.322927</td>
+<td>0.677944</td>
+</tr>
+<tr>
+<td>44</td>
+<td>OLFM1</td>
+<td>0.200591</td>
+<td>0.290383</td>
+<td>0.708072</td>
+</tr>
+<tr>
+<td>45</td>
+<td>RPL32</td>
+<td>0.192678</td>
+<td>0.302734</td>
+<td>0.696434</td>
+</tr>
+<tr>
+<td>46</td>
+<td>TMSB4X</td>
+<td>0.191757</td>
+<td>0.317970</td>
+<td>0.681999</td>
+</tr>
+<tr>
+<td>47</td>
+<td>PCSK1N</td>
+<td>0.191165</td>
+<td>0.297974</td>
+<td>0.704676</td>
+</tr>
+<tr>
+<td>48</td>
+<td>RPS27A</td>
+<td>0.189860</td>
+<td>0.313465</td>
+<td>0.684624</td>
+</tr>
+<tr>
+<td>49</td>
+<td>COX7C</td>
+<td>0.188659</td>
+<td>0.324590</td>
+<td>0.675992</td>
+</tr>
+</tbody>
+</table></section>
+</section>
+<hr class="docutils" />
+<section id="clustering">
+<h2>Clustering<a class="headerlink" href="#clustering" title="Permalink to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the number of clusters</span>
+<span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<section id="read-pi-result-and-expression-data-preprocessing">
+<h3>1.Read PI result and Expression data preprocessing<a class="headerlink" href="#read-pi-result-and-expression-data-preprocessing" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">output_dir</span><span class="o">+</span><span class="s2">&quot;/PI_result.h5&quot;</span><span class="p">)</span>
+
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">normalize_total</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
+<span class="n">adata</span> <span class="o">=</span> <span class="n">PROST</span><span class="o">.</span><span class="n">feature_selection</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">save_path</span> <span class="o">=</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="s2">&quot;prost&quot;</span><span class="p">,</span> <span class="n">n_top_genes</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="run-prost-clustering">
+<h3>2.Run PROST clustering<a class="headerlink" href="#run-prost-clustering" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PROST</span><span class="o">.</span><span class="n">run_prost_clust</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span>
+                    <span class="n">platform</span><span class="o">=</span><span class="s2">&quot;visium&quot;</span><span class="p">,</span>
+                    <span class="n">key_added</span> <span class="o">=</span> <span class="s2">&quot;PROST&quot;</span><span class="p">,</span>
+                    <span class="n">init</span><span class="o">=</span><span class="s2">&quot;mclust&quot;</span><span class="p">,</span>                         
+                    <span class="n">n_clusters</span> <span class="o">=</span> <span class="n">n_clusters</span><span class="p">,</span>                        
+                    <span class="n">gnnlayers</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>              
+                    <span class="n">laplacin_filter</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>                        
+                    <span class="n">lr</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>                         
+                    <span class="n">SEED</span><span class="o">=</span><span class="n">SEED</span><span class="p">,</span>                          
+                    <span class="n">max_epochs</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>                        
+                    <span class="n">tol</span> <span class="o">=</span> <span class="mf">5e-3</span><span class="p">,</span>                        
+                    <span class="n">post_processing</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>                        
+                    <span class="n">pp_run_times</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="save-result">
+<h3>3.Save result<a class="headerlink" href="#save-result" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>adata.write_h5ad(output_dir+&quot;/PNN_result.h5&quot;)   
+clustering = adata.obs[&quot;clustering&quot;]
+clustering.to_csv(output_dir+&quot;/clusters.csv&quot;,header = False)
+pp_clustering = adata.obs[&quot;pp_clustering&quot;] 
+pp_clustering.to_csv(output_dir+&quot;/pp_clusters.csv&quot;,header = False)
+embedding = adata.obsm[&quot;PROST&quot;]
+np.savetxt(output_dir+&quot;/embedding.txt&quot;,embedding)
+
+
+&gt;&gt;&gt; Calculating adjacency matrix ...
+&gt;&gt;&gt; Running PCA ...
+&gt;&gt;&gt; Laplacian Smoothing ...
+&gt;&gt;&gt; Initializing cluster centers with mclust, n_clusters known
+&gt;&gt;&gt; Epoch: : 501it [09:07,  1.09s/it, loss=0.093866244]                       
+&gt;&gt;&gt; Clustering completed !!
+&gt;&gt;&gt; Post-processing for clustering result ...
+&gt;&gt;&gt; Refining clusters, run times: 1/3
+&gt;&gt;&gt; Refining clusters, run times: 2/3
+&gt;&gt;&gt; Refining clusters, run times: 3/3
+</pre></div>
+</div>
+</section>
+<section id="plot-clustering-results">
+<h3>4.Plot clustering results<a class="headerlink" href="#plot-clustering-results" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pl</span><span class="o">.</span><span class="n">spatial</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> 
+                <span class="n">img_key</span> <span class="o">=</span> <span class="s2">&quot;hires&quot;</span><span class="p">,</span> 
+                <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;annotation&quot;</span><span class="p">,</span><span class="s2">&quot;clustering&quot;</span><span class="p">,</span><span class="s2">&quot;pp_clustering&quot;</span><span class="p">],</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Manual annotation&quot;</span><span class="p">,</span><span class="s1">&#39;clustering&#39;</span><span class="p">,</span><span class="s1">&#39;post-processed clustering&#39;</span><span class="p">],</span>                
+                <span class="n">na_in_legend</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">ncols</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">storing</span> <span class="s1">&#39;annotation&#39;</span> <span class="k">as</span> <span class="n">categorical</span>
+</pre></div>
+</div>
+<p><img alt="clustering results" src="_images/DLPFC_clusterresult_output.png" /></p>
+</section>
+<section id="calculate-ari-and-nmi">
+<h3>5.Calculate ARI and NMI<a class="headerlink" href="#calculate-ari-and-nmi" title="Permalink to this heading"></a></h3>
+<p>To compare the domain segmentation performance quantitatively, we used the Adjusted Rand Index (ARI) and Normalized Mutual Information (NMI) to measure the similarity between the predicted domains and the manual annotations across all twelve sections of the DLPFC dataset.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ARI</span><span class="p">,</span> <span class="n">NMI</span><span class="p">,</span> <span class="n">silhouette_score</span> <span class="o">=</span> <span class="n">PROST</span><span class="o">.</span><span class="n">cal_metrics_for_DLPFC</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s2">&quot;pp_clustering&quot;</span><span class="p">],</span> <span class="n">labels_true_path</span> <span class="o">=</span> <span class="n">input_dir</span><span class="o">+</span><span class="s1">&#39;/cluster_labels.csv&#39;</span><span class="p">)</span>
+
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">ARI</span> <span class="o">=</span> <span class="mf">0.5910397042708356</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">AMI</span> <span class="o">=</span> <span class="mf">0.6813238415316797</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">NMI</span> <span class="o">=</span> <span class="mf">0.6818348825641031</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">v_measure_score</span> <span class="o">=</span> <span class="mf">0.6818348825641031</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">silhouette_score</span> <span class="o">=</span> <span class="mf">0.3681630775671734</span> 
+<span class="o">==================================================</span>
+</pre></div>
+</div>
+</section>
+<section id="plot-umap-and-paga-graph">
+<h3>6.Plot UMAP and PAGA graph<a class="headerlink" href="#plot-umap-and-paga-graph" title="Permalink to this heading"></a></h3>
+<p>Next, the embeddings generated by PROST was applied to UMAP for visualization and PAGA for inferring trajectory.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>adata = sc.read_visium(path=input_dir, count_file=&#39;{}   _filtered_feature_bc_matrix.h5&#39;.format(section_num))
+adata.var_names_make_unique()
+# Read annotation
+labels_true = pd.read_csv(input_dir+&#39;/cluster_labels.csv&#39;)
+labels_true.index = labels_true[&quot;key&quot;].str[7:]
+adata.obs[&quot;annotation&quot;] = labels_true[&quot;ground_truth&quot;]
+adata.obs[&quot;annotation&quot;] = adata.obs[&quot;annotation&quot;].astype(&#39;category&#39;).   astype(&#39;str&#39;)
+used_adata = adata[adata.obs[&quot;annotation&quot;]!=&#39;nan&#39;]
+prost_embed = pd.read_csv(output_dir+&quot;/embedding.txt&quot;,header = None,    delim_whitespace=True)
+prost_embed.index = labels_true.index
+adata.obsm[&quot;PROST&quot;] = prost_embed
+# Plot
+plt.rcParams[&quot;figure.figsize&quot;] = (6,5)
+sc.pp.neighbors(used_adata, use_rep=&quot;PROST&quot;)
+sc.tl.umap(used_adata)
+sc.tl.paga(used_adata,groups=&#39;annotation&#39;)
+sc.pl.paga_compare(used_adata, color=&quot;annotation&quot;,random_state=1,
+                             size = 35,legend_fontsize=25,  node_size_scale=4,
+                             frameon=False, show = False,fontoutline = 2)
+
+
+&gt;&gt;&gt; Variable names are not unique. To make them unique, call `.var_names_make_unique`.
+&gt;&gt;&gt; Variable names are not unique. To make them unique, call `.var_names_make_unique`.
+&gt;&gt;&gt; ... storing &#39;annotation&#39; as categorical
+&gt;&gt;&gt; ... storing &#39;feature_types&#39; as categorical
+&gt;&gt;&gt; ... storing &#39;genome&#39; as categorical
+&gt;&gt;&gt; [&lt;Axes:xlabel=&#39;UMAP1&#39;, ylabel=&#39;UMAP2&#39;&gt;, &lt;Axes:&gt;]
+</pre></div>
+</div>
+<p><img alt="DLPFC_annotation_output" src="_images/DLPFC_annotation_output.png" /></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Yuchen Liang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
