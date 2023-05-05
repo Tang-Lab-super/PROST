@@ -1,0 +1,6 @@
+name: envR
+channels:
+  - nodefaults
+dependencies:
+  - conda-forge::r-base>=4.0
+  - conda-forge::r-mclust=5.4.10
