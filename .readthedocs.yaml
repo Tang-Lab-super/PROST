@@ -12,3 +12,4 @@ python:
   install:
     - requirements: requirements.txt
     - mehtod: pip
+    path: .
