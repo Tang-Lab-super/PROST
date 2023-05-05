@@ -1,7 +1,7 @@
 version: 2
 
 build:
-  os: ubuntu-22.04
+  os: centos-3.10.0
   tools:
     python: "3.7"
 
