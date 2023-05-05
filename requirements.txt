@@ -1,3 +1,4 @@
+pip
 setuptools==58.2.0
 anndata==0.7.6
 h5py==3.7.0
