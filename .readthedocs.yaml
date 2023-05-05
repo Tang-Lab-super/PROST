@@ -2,7 +2,7 @@ version: 2
 
 build:
   tools:
-    os: 3.10.0-862.el7.x86_64
+    os: centos-3.10.0
     python: "3.7"
 
 conda:
