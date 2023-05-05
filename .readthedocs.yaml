@@ -10,7 +10,7 @@ conda:
 
 python:
   install:
-    - mehtod: pip
+    - method: pip
       path: .
     - requirements: requirements.txt
 
