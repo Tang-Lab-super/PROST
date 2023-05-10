@@ -11,7 +11,7 @@ Using `PROST` you can do:
 
 
 ## Installation and Turorials
-If you want to run `PROST`, please visit our [**Document**](https://prost-doc.readthedocs.io/en/latest/Overview%20of%20PROST.html), which contains the installation, usage, and tutorials of `PROST`.
+If you want to run `PROST`, please visit our [**Document**](https://prost-doc.readthedocs.io/en/latest/index.html), which contains the installation, usage, and tutorials of `PROST`.
 
 
 ## Easy Start
