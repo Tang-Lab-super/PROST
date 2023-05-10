@@ -15,7 +15,7 @@ If you want to run `PROST`, please visit our [**Document**](https://prost-doc.re
 
 
 ## Easy Start
-After `installation`, we suggest downloading the complete tutorial examples from [**zenodo**](https://doi.org/10.5281/zenodo.7827565) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7827565.svg)](https://doi.org/10.5281/zenodo.7827565) (The dataset is too large to upload to github, there only 1 case (151672) of DLPFC data).   
+After `installation`, we suggest downloading the complete example files from [**zenodo**](https://doi.org/10.5281/zenodo.7827565) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7827565.svg)](https://doi.org/10.5281/zenodo.7827565) (The dataset is too large to upload to github, there only 1 case (151672) of DLPFC data).   
 Similarly, you can download the dataset for each turorial individually via the [**google drive**](https://drive.google.com/drive/folders/1HlnH8DtyCGdxTVdMdBdI0xdu224zZy--) in the tutorial. 
 
 
