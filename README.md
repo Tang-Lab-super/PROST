@@ -1,4 +1,6 @@
 # PROST: A quantitative pattern recognition framework for spatial transcriptomics 
+[![Documentation Status](https://readthedocs.org/projects/prost-doc/badge/?version=latest)](https://prost-doc.readthedocs.io/en/latest/?badge=latest)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7827565.svg)](https://doi.org/10.5281/zenodo.7827565)
 ## Overview
 `PROST` is a flexible framework to quantify gene spatial expression patterns and detect spatial tissue domains using spatially resolved transcriptomics with various resolutions. `PROST` consists of two independent workflows: **PROST Index (PI)** and **PROST Neural Network (PNN)**. 
 
