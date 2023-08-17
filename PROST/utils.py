@@ -460,7 +460,7 @@ def spatial_autocorrelation(adata, k = 10, permutations = None):
         genes_exp = adata.X
     spatial = adata.obsm['spatial'] 
     w = kneighbors_graph(spatial, n_neighbors = k, include_self = False).toarray()
-    w = sp.csr_matrix(w)
+    
     s0 = w.sum()
     s02 = s0 * s0
     t = w + w.transpose()
@@ -473,7 +473,8 @@ def spatial_autocorrelation(adata, k = 10, permutations = None):
     v_num = n2 * s1 - n * s2 + 3 * s02
     v_den = (n - 1) * (n + 1) * s02
     V_norm = v_num / v_den - (1.0 / (n - 1)) ** 2
-    
+
+    w = sp.csr_matrix(w)
     moranI = np.zeros(genes_exp.shape[1])
     gearyC = np.zeros(genes_exp.shape[1])
     p_norm = np.zeros(genes_exp.shape[1])
