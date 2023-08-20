@@ -254,15 +254,12 @@ def cal_prost_index(adata,platform="visium"):
         SEP = np.zeros(len(data))
         SIG = np.zeros(len(data))
         region_number = np.zeros(len(data))
-        pvalue = np.zeros(len(data))
-        F = np.zeros(len(data))
         
         for i in trange(len(data)): 
             temp_raw = data[i, :]
             temp_label = subregions[i, :]
             back_value = temp_raw[temp_label == 0]
             back_value = back_value[back_value > 0]
-            raw_mean = np.mean(temp_raw)
             if back_value.size == 0:
                 back_value = 0  
             class_mean = np.zeros(max(np.unique(temp_label)).astype(int) + 1)
