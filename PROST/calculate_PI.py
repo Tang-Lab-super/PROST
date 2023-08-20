@@ -178,7 +178,7 @@ def get_sub(adata, kernel_size = 5, platform="visium",del_rate = 0.01):
             temp_i, _ = make_image(temp_data, locates)      
             kernel = np.ones((kernel_size,kernel_size), np.uint8)
             temp_i = cv2.morphologyEx(temp_i, cv2.MORPH_CLOSE, kernel) # close
-            region_label = label(temp_i, 8) - 1
+            region_label = label(temp_i)
             T = np.zeros(region_label.shape)
             classes = np.max(np.unique(region_label)) + 1      
             len_list = np.zeros(classes)     
@@ -212,7 +212,7 @@ def get_sub(adata, kernel_size = 5, platform="visium",del_rate = 0.01):
             temp_i = temp_data.reshape(adata.uns['shape'])     
             kernel = np.ones((kernel_size,kernel_size), np.uint8)
             temp_i = cv2.morphologyEx(temp_i, cv2.MORPH_CLOSE, kernel)
-            region_label = label(temp_i, 8) - 1
+            region_label = label(temp_i)
             T = np.zeros(region_label.shape)
             classes = np.max(region_label) + 1      
             len_list = np.zeros(classes)
