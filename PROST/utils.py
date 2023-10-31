@@ -603,6 +603,7 @@ def spatial_autocorrelation(adata, k = 10, permutations = None, multiprocess = T
 
     w = sp.csr_matrix(w)
     N_gene = genes_exp.shape[1]
+    genelist = adata.var.index.tolist()
 
     def init():     # Pool initializer
         global w
@@ -633,23 +634,24 @@ def spatial_autocorrelation(adata, k = 10, permutations = None, multiprocess = T
     if len(results[0]) == 6:
         col.append('p_sim')
 
-    results = pd.DataFrame(results, columns=col)
+    results = pd.DataFrame(results, index=genelist, columns=col)
 
     _, fdr_norm = fdrcorrection(results.p_norm, alpha=0.05)
     _, fdr_rand = fdrcorrection(results.p_rand, alpha=0.05)
 
-    adata.var["Moran_I"] = results.moranI
-    adata.var["Geary_C"] = results.gearyC
-    adata.var["p_norm"] = results.p_norm # p-value under normality assumption
-    adata.var["p_rand"] = results.p_rand # p-value under randomization assumption
-    adata.var["fdr_norm"] = fdr_norm
-    adata.var["fdr_rand"] = fdr_rand
+
+    _, fdr_norm = fdrcorrection(results.p_norm, alpha=0.05)
+    _, fdr_rand = fdrcorrection(results.p_rand, alpha=0.05)
+
+    adata.var[['Moran_I', 'Geary_C', 'p_norm', 'p_rand']] = results.loc[adata.var.index, ['moranI', 'gearyC', 'p_norm', 'p_rand']]
+    adata.var['fdr_norm'] = fdr_norm
+    adata.var['fdr_rand'] = fdr_rand
 
     if permutations:
         _, fdr_sim = fdrcorrection(results.p_sim, alpha=0.05)
-        adata.var["p_sim"] = results.p_sim
+        adata.var["p_sim"] = results.loc[adata.var.index, 'p_sim']
         adata.var["fdr_sim"] = fdr_sim
-    
+
     return adata
 
 
