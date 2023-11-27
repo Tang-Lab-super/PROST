@@ -59,7 +59,6 @@ def minmax_scaler(adata):
 
 def gau_filter_for_single_gene(arglist):
     gene_data, locates, platform, image_idx_1d = arglist
-    gene_data, locates, platform, image_idx_1d = gene_data[gene_i], locates, platform, ''
 
     I,_ = make_image(gene_data, locates, platform) 
     I = gaussian_filter(I, sigma = 1, truncate = 2)
