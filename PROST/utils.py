@@ -305,6 +305,9 @@ def refine_clusters(result, adj, p=0.5):
     -------
     Check post_processed cluster label.
     """
+    if sp.issparse(adj):
+        adj = adj.A
+
     pred_after = []  
     for i in range(result.shape[0]):
         temp = list(adj[i])  
@@ -362,8 +365,9 @@ def cluster_post_process(adata, platform, k_neighbors = None, min_distance = Non
     else:
         PP_adj = get_adj(adata, mode = "distance", min_distance = min_distance)
 
+
     result_final = pd.DataFrame(np.zeros(clutser_result.shape[0]))
-    i = 1
+    i = 1             
     while True:        
         clutser_result = refine_clusters(clutser_result, PP_adj, p)
         print("Refining clusters, run times: {}/{}".format(i,run_times))
