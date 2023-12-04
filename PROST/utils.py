@@ -620,25 +620,13 @@ def spatial_autocorrelation(adata, k = 10, permutations = None, multiprocess = T
     w = sp.csr_matrix(w)
     N_gene = genes_exp.shape[1]
 
-    def init():     # Pool initializer
-        global w
-        global genes_exp
-        global permutations
-        global n
-        global n2
-        global s1
-        global s2
-        global s02
-        global E
-        global V_norm
-
     def sel_data():  # data generater
         for gene_i in range(N_gene):
             yield [gene_i, genes_exp[:, gene_i], w, permutations, n, n2, s1, s2, s02, E, V_norm]
 
     if multiprocess:
         num_cores = int(mp.cpu_count() / 2)         # default core is half of total
-        with mp.Pool(processes=num_cores, initializer=init) as pool:
+        with mp.Pool(processes=num_cores) as pool:
             results = list(tqdm(pool.imap(cal_eachGene, sel_data()), total=N_gene))
     else:
         results = list(tqdm(map(cal_eachGene, sel_data()), total=N_gene))
@@ -652,16 +640,16 @@ def spatial_autocorrelation(adata, k = 10, permutations = None, multiprocess = T
     _, fdr_norm = fdrcorrection(results.p_norm, alpha=0.05)
     _, fdr_rand = fdrcorrection(results.p_rand, alpha=0.05)
 
-    adata.var["Moran_I"] = results.moranI
-    adata.var["Geary_C"] = results.gearyC
-    adata.var["p_norm"] = results.p_norm # p-value under normality assumption
-    adata.var["p_rand"] = results.p_rand # p-value under randomization assumption
+    adata.var["Moran_I"] = results.moranI.values
+    adata.var["Geary_C"] = results.gearyC.values
+    adata.var["p_norm"] = results.p_norm.values # p-value under normality assumption
+    adata.var["p_rand"] = results.p_rand.values # p-value under randomization assumption
     adata.var["fdr_norm"] = fdr_norm
     adata.var["fdr_rand"] = fdr_rand
 
     if permutations:
         _, fdr_sim = fdrcorrection(results.p_sim, alpha=0.05)
-        adata.var["p_sim"] = results.p_sim
+        adata.var["p_sim"] = results.p_sim.values
         adata.var["fdr_sim"] = fdr_sim
     
     return adata
