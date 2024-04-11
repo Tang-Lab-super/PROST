@@ -93,7 +93,7 @@ def gau_filter(adata, platform="visium", multiprocess=False):
     else:
         gau_fea = list(tqdm(map(gau_filter_for_single_gene, sel_data()), total=N_gene))
         
-    adata.uns['gau_fea'] = np.array(gau_fea) 
+    adata.uns['gau_fea'] = np.array(gau_fea, dtype=np.float64) 
     return adata
 
 
@@ -184,7 +184,7 @@ def get_binary(adata, platform="visium", method = "iterative", multiprocess=Fals
             output = list(tqdm(pool.imap(_iget_binary, sel_data()), total=N_gene))
     else:
         output = list(tqdm(map(_iget_binary, sel_data()), total=N_gene))
-    output = np.array(output) + 0
+    output = np.array(output, dtype=np.float64) + 0.0
     adata.uns['binary_image'] = output
     return adata
 
