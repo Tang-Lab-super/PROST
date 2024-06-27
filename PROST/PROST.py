@@ -50,10 +50,11 @@ def cal_PI(adata, kernel_size=5, del_rate=0.01, platform = "visium", multiproces
     return adata
 
 
-def run_PNN(adata, SEED, platform=None, init="leiden", n_clusters=5, res=0.2,
-                    k_neighbors=7, min_distance=50, key_added="PROST", lap_filter=2, 
-                    lr=0.1, tol=5e-3, max_epochs=500, post_processing=False, 
-                    pp_run_times=3, cuda=False):
+def run_PNN(adata, SEED, init="leiden", n_clusters=5, res=0.2,
+                adj_mode="neighbour", k_neighbors=7, min_distance=50, 
+                key_added="PROST", lap_filter=2, 
+                lr=0.1, tol=5e-3, max_epochs=500, post_processing=False, 
+                pp_run_times=3, cuda=False):
     '''
     Use PNN to identify spatial domains for ST data.
     
@@ -63,14 +64,14 @@ def run_PNN(adata, SEED, platform=None, init="leiden", n_clusters=5, res=0.2,
         The annotated data matrix of shape `n_obs` × `n_vars`. Rows correspond to cells and columns to genes.
     SEED : int
         Random seed.
-    platform : str ['visium','Slide-seq','Stereo-seq','osmFISH','SeqFISH' or other platform that generate irregular spots] (default: 'visium')
-        Sequencing platforms for generating ST data.
     init : str ["kmeans","mclust","louvain","leiden"] (default: leiden)
         Methods for initializing cluster centroids.
     n_clusters : int (default: 5)
         If the number of spatial domains is know, set cluster numbers for `init='kmeans'` or `init='mclust'`.
     res : float (default: 0.5)
         If the number of spatial domains is unknown, set resolutions parameter for `init='kmeans'` or `init='mclust'`.
+    adj_mode : str ['neighbour','distance'] (default: 'neighbour')
+        Mode of neighbourhood for create cell graph.
     k_neighbors : int (default: 7)
         For `mode = 'neighbour'`, set the number of nearest neighbors if `mode='neighbour'`.
     min_distance : int (default: 50)
@@ -103,12 +104,16 @@ def run_PNN(adata, SEED, platform=None, init="leiden", n_clusters=5, res=0.2,
     setup_seed(SEED)
  
     #--------------------------------------------------------------------------
-    print("\nCalculating adjacency matrix ...")
-    if platform=="visium" or platform=="ST":
+    if adj_mode=="neighbour":
+        print(f"\nCalculating adjacency matrix, mode={adj_mode}, k_neighbors={k_neighbors}...")
         adj = get_adj(adata, mode = 'neighbour', k_neighbors = k_neighbors)
         adj = adj.toarray()
-    else:
+    elif adj_mode=="distance":
+        print(f"\nCalculating adjacency matrix, mode={adj_mode}, min_distance={k_neighbors}...")
         adj = get_adj(adata, mode = 'distance', min_distance = min_distance)
+    else:
+        raise ValueError("adj_mode must input one of ['neighbour', 'distance']")
+    
 
     #--------------------------------------------------------------------------
     num_pcs = int(min(50, adata.shape[1]))
@@ -147,7 +152,7 @@ def run_PNN(adata, SEED, platform=None, init="leiden", n_clusters=5, res=0.2,
 
     #--------------------------------------------------------------------------
     if post_processing:
-        cluster_post_process(adata, platform, 
+        cluster_post_process(adata, adj_mode, 
                              k_neighbors = int(k_neighbors*3/2)+1, 
                              min_distance = min_distance*3/2, 
                              key_added = "pp_clustering", 

@@ -326,7 +326,7 @@ def refine_clusters(result, adj, p=0.5):
     return np.array(pred_after)
       
 
-def cluster_post_process(adata, platform, k_neighbors = None, min_distance = None, 
+def cluster_post_process(adata, adj_mode, k_neighbors = None, min_distance = None, 
                          key_added = "pp_clustering", p = 0.5, run_times = 3):
     """
     Post_processing tool for cluster label that integrates neighborhood information.
@@ -336,8 +336,8 @@ def cluster_post_process(adata, platform, k_neighbors = None, min_distance = Non
     adata : Anndata
         The annotated data matrix of shape `n_obs` × `n_vars`. Rows correspond 
         to cells and columns to genes.
-    platform : str ['visium','Slide-seq','Stereo-seq','osmFISH','SeqFISH'] (default: 'visium')
-        Sequencing platforms for generating ST data.
+    adj_mode : str ['neighbour','distance'] (default: 'neighbour')
+        Mode of neighbourhood for create cell graph.
     k_neighbors : int (default: None)
         Same as `PROST.get_adj()`.
     min_distance : int (default: None)
@@ -360,10 +360,13 @@ def cluster_post_process(adata, platform, k_neighbors = None, min_distance = Non
     print("\nPost-processing for clustering result ...")
     clutser_result = adata.obs["clustering"]
     # nonlocal PP_adj
-    if platform == "visium":
-        PP_adj = get_adj(adata, mode = "neighbour", k_neighbors = k_neighbors)
-    else:
+    if adj_mode=="neighbour":
+        PP_adj = get_adj(adata, mode = 'neighbour', k_neighbors = k_neighbors)
+        PP_adj = PP_adj.toarray()
+    elif adj_mode=="distance":
         PP_adj = get_adj(adata, mode = "distance", min_distance = min_distance)
+    else:
+        raise ValueError("adj_mode must input one of ['neighbour', 'distance']")
 
 
     result_final = pd.DataFrame(np.zeros(clutser_result.shape[0]))
